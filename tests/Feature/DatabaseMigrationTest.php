@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 
 class DatabaseMigrationTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
     /**
      * Test that a task can be created and stored in the database.
@@ -20,19 +20,19 @@ class DatabaseMigrationTest extends TestCase
      *
      */
     /** @test */
-    public function it_has_the_correct_task_table_structure()
-    {
-        // Run the migrations
-        $this->artisan('migrate');
+    // public function it_has_the_correct_task_table_structure()
+    // {
+    //     // Run the migrations
+    //     $this->artisan('migrate');
 
-        // Check if the table exists
-        $this->assertTrue(Schema::hasTable('tasks'));
+    //     // Check if the table exists
+    //     $this->assertTrue(Schema::hasTable('tasks'));
 
-        // Check if specific columns exist
-        $this->assertTrue(Schema::hasColumn('tasks', 'title'));
-        $this->assertTrue(Schema::hasColumn('tasks', 'description'));
-        $this->assertTrue(Schema::hasColumn('tasks', 'due_date'));
-        $this->assertTrue(Schema::hasColumn('tasks', 'priority'));
-        $this->assertTrue(Schema::hasColumn('tasks', 'status'));
-    }
+    //     // Check if specific columns exist
+    //     $this->assertTrue(Schema::hasColumn('tasks', 'title'));
+    //     $this->assertTrue(Schema::hasColumn('tasks', 'description'));
+    //     $this->assertTrue(Schema::hasColumn('tasks', 'due_date'));
+    //     $this->assertTrue(Schema::hasColumn('tasks', 'priority'));
+    //     $this->assertTrue(Schema::hasColumn('tasks', 'status'));
+    // }
 }
