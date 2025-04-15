@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Enums\TaskStatus;
 use App\Enums\Priority;
 
@@ -29,13 +30,35 @@ class Task extends Model
         'priority' => Priority::class,
     ];
 
-    // Get the status options for the task (using the TaskStatus enum)
+    // Relationships:
+
+    /**
+     * Get the user that owns the task.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // Other methods:
+
+    /**
+     * Get the available status options for tasks.
+     *
+     * @return array The available status options for tasks.
+     */
     public static function getStatusOptions(): array
     {
         return TaskStatus::getValues();
     }
 
-    // Get the priority options for the task (using the Priority enum)
+    /**
+     * Get the available priority options for tasks.
+     *
+     * @return array The available priority options for tasks.
+     */
     public static function getPriorityOptions(): array
     {
         return Priority::getValues();
