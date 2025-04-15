@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Task;
+use App\Models\User;
 use App\Enums\TaskStatus;
 use App\Enums\Priority;
 
@@ -27,6 +28,7 @@ class TaskFactory extends Factory
             'status' => $this->faker->randomElement(TaskStatus::getValues()),
             'priority' => $this->faker->randomElement(Priority::getValues()),
             'due_date' => $this->faker->dateTimeBetween('now', '+1 year'),
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }
