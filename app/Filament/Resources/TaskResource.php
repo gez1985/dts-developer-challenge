@@ -17,6 +17,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use App\Enums\Priority;
 use App\Enums\TaskStatus;
 
@@ -60,7 +63,8 @@ class TaskResource extends Resource
                     ->toggleable()
                     ->numeric(),
                 TextColumn::make('title')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('priority')
                     ->badge()
                     ->color(fn(Priority $state): string => match ($state->value) {
@@ -83,10 +87,30 @@ class TaskResource extends Resource
                 TextColumn::make('due_date')
                     ->dateTime('F j, Y  @ H:i')
                     ->sortable()
+                    ->searchable()
                     ->toggleable()
             ])
             ->filters([
-                //
+                SelectFilter::make('priority')
+                    ->options(Priority::getFilamentSelectOptions()),
+                SelectFilter::make('status')
+                    ->options(TaskStatus::getFilamentSelectOptions()),
+                Filter::make('due_dates')
+                    ->form([
+                        DatePicker::make('due_after'),
+                        DatePicker::make('due_before'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['due_after'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('due_date', '>=', $date),
+                            )
+                            ->when(
+                                $data['due_before'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('due_date', '<=', $date),
+                            );
+                    })
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
