@@ -19,7 +19,7 @@ class TaskPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, User $model): bool
+    public function view(User $user, Task $task): bool
     {
         return $user->hasRole(['admin', 'super-admin']);
     }
@@ -43,7 +43,7 @@ class TaskPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, User $model): bool
+    public function delete(User $user, Task $task): bool
     {
         return $user->hasRole('super-admin');
     }
@@ -59,7 +59,7 @@ class TaskPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, User $model): bool
+    public function restore(User $user, Task $task): bool
     {
         return $user->hasRole('super-admin');
     }
@@ -67,7 +67,7 @@ class TaskPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restoreAny(User $user, User $model): bool
+    public function restoreAny(User $user, Task $task): bool
     {
         return $user->hasRole('super-admin');
     }
@@ -75,7 +75,7 @@ class TaskPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, User $model): bool
+    public function forceDelete(User $user, Task $task): bool
     {
         return $user->hasRole('super-admin');
     }
@@ -83,7 +83,7 @@ class TaskPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDeleteAny(User $user, User $model): bool
+    public function forceDeleteAny(User $user, Task $task): bool
     {
         return $user->hasRole('super-admin');
     }

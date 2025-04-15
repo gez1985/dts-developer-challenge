@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
+use Filament\Resources\RelationManagers\RelationManager;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Spatie\Permission\Models\Role;
@@ -98,7 +99,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\TasksRelationManager::class,
         ];
     }
 

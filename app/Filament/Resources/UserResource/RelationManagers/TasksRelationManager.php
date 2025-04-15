@@ -1,73 +1,58 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\UserResource\RelationManagers;
 
-use App\Filament\Resources\TaskResource\Pages;
-use App\Filament\Resources\TaskResource\RelationManagers;
-use App\Models\Task;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\RichEditor;
+use App\Enums\Priority;
+use App\Enums\TaskStatus;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
-use App\Enums\Priority;
-use App\Enums\TaskStatus;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\RichEditor;
 
-class TaskResource extends Resource
+class TasksRelationManager extends RelationManager
 {
-    protected static ?string $model = Task::class;
+    protected static string $relationship = 'tasks';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
-            ->schema(
-                [
-                    TextInput::make('title')
-                        ->required()
-                        ->maxLength(100),
-                    Select::make('priority')
-                        ->required()
-                        ->default('medium')
-                        ->options(Priority::getFilamentSelectOptions()),
-                    RichEditor::make('description')
-                        ->columnSpan(2)
-                        ->maxLength(500),
-                    Select::make('status')
-                        ->required()
-                        ->options(TaskStatus::getFilamentSelectOptions()),
-                    DateTimePicker::make('due_date')
-                        ->minDate(now())
-                        ->maxDate(now()->addYears(2))
-                ]
-            );
+            ->schema([
+                TextInput::make('title')
+                    ->required()
+                    ->maxLength(100),
+                Select::make('priority')
+                    ->required()
+                    ->default('medium')
+                    ->options(Priority::getFilamentSelectOptions()),
+                RichEditor::make('description')
+                    ->columnSpan(2)
+                    ->maxLength(500),
+                Select::make('status')
+                    ->required()
+                    ->options(TaskStatus::getFilamentSelectOptions()),
+                DateTimePicker::make('due_date')
+                    ->minDate(now())
+                    ->maxDate(now()->addYears(2))
+            ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
+            ->recordTitleAttribute('title')
             ->columns([
-                TextColumn::make('id')
-                    ->sortable()
-                    ->toggleable()
-                    ->numeric(),
-                TextColumn::make('user.name')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('title')
-                    ->sortable()
-                    ->searchable(),
+                TextColumn::make('title'),
                 TextColumn::make('priority')
                     ->badge()
                     ->color(fn(Priority $state): string => match ($state->value) {
@@ -115,29 +100,17 @@ class TaskResource extends Resource
                             );
                     })
             ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListTasks::route('/'),
-            'create' => Pages\CreateTask::route('/create'),
-            'edit' => Pages\EditTask::route('/{record}/edit'),
-        ];
     }
 }
