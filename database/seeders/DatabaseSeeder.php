@@ -16,6 +16,15 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RoleSeeder::class);
 
+        $superAdmin = User::factory()->create([
+            'name' => 'Super Admin',
+            'email' => 'super@super.com',
+            'password' => Hash::make('Admin123'),
+        ]);
+
+        // Assign the admin role using Spatie
+        $superAdmin->assignRole('super-admin');
+
         $admin = User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@admin.com',
@@ -23,7 +32,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Assign the admin role using Spatie
-        $admin->assignRole('super-admin');
+        $admin->assignRole('admin');
+
+        $users = User::factory(5)->create();
+        foreach ($users as $user) {
+            $user->assignRole('user');  // Assign 'user' role to each created user
+        }
 
         Task::factory(50)->create();
     }
