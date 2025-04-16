@@ -16,5 +16,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/tasks', [TaskController::class, 'index']);             // Get all tasks for user
     Route::get('/tasks/{id}', [TaskController::class, 'show']);         // Get single task by ID
     Route::post('/tasks', [TaskController::class, 'store']);            // Create new task
+    Route::put('/tasks/{task}', [TaskController::class, 'update']);     // Update a task
     Route::delete('/tasks/{id}', [TaskController::class, 'destroy']);   // Delete a task by ID
 });
+
+
+//  For Testing Only:
+if (app()->environment('testing')) {
+    Route::middleware('auth:sanctum')->get('/test-protected', function (Request $request) {
+        return response()->json($request->user());
+    });
+}
