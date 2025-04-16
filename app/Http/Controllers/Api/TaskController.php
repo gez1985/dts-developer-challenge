@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\TaskResource;
+use App\Http\Requests\TaskRequest;
+use App\Models\Task;
 
 class TaskController extends Controller
 {
@@ -41,19 +43,33 @@ class TaskController extends Controller
     /**
      * Store a newly created task for the authenticated user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\TaskRequest  $request
      * @return \App\Http\Resources\TaskResource|\Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'priority' => 'required|in:low,medium,high',
-            'due_date' => 'nullable|date',
-        ]);
-
+        $validated = $request->validated();
         $task = $request->user()->tasks()->create($validated);
+
+        return new TaskResource($task);
+    }
+
+    /**
+     * Update a task for the authenticated user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(TaskRequest $request, Task $task)
+    {
+        // Check that the task belongs to the authenticated user
+        if ($task->user_id !== $request->user()->id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $validated = $request->validated();
+        $task->update($validated);
 
         return new TaskResource($task);
     }
