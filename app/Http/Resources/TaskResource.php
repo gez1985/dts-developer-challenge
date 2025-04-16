@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
 
 class TaskResource extends JsonResource
 {
@@ -20,7 +21,7 @@ class TaskResource extends JsonResource
             'description' => $this->description,
             'priority' => $this->priority,
             'status' => $this->status,
-            'dueDate' => $this->due_date,
+            'dueDate' => $this->due_date ? Carbon::parse($this->due_date)->toDateTimeString() : null,
             'createdAt' => $this->created_at->toDateTimeString(),
             'updatedAt' => $this->updated_at->toDateTimeString(),
         ];
