@@ -17,6 +17,22 @@ services:
       DB_DATABASE: ${DB_DATABASE}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
+  app_test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: test_app
+    ports:
+      - "8001:8000"
+    volumes:
+      - .:/var/www/html
+    environment:
+      DB_CONNECTION: sqlite
+      DB_DATABASE: ":memory:"
+      CACHE_DRIVER: array
+      SESSION_DRIVER: array
+      QUEUE_CONNECTION: sync
+      MAIL_MAILER: array
 
   postgres:
     image: postgres:16
