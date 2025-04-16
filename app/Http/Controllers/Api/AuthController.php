@@ -10,13 +10,31 @@ use App\Models\User;
 class AuthController extends Controller
 {
     /**
-     * Log the user in and return an API token.
-     *
-     * This method validates the user's credentials, checks the password,
-     * and returns a new Sanctum token if authentication is successful.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="Log in and get an API token",
+     *     tags={"Authentication"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="password123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful login, returns token",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="token", type="string", example="1|abcd1234token..."),
+     *             @OA\Property(property="user", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Invalid login credentials"
+     *     )
+     * )
      */
     public function login(Request $request)
     {
@@ -36,12 +54,20 @@ class AuthController extends Controller
         return response()->json(['token' => $token, 'user' => $user]);
     }
 
-
     /**
-     * Log the authenticated user out from all sessions by deleting all tokens.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Post(
+     *     path="/api/logout",
+     *     summary="Log out the current user",
+     *     tags={"Authentication"},
+     *     security={{"sanctum":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successfully logged out",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Logged out")
+     *         )
+     *     )
+     * )
      */
     public function logout(Request $request)
     {
