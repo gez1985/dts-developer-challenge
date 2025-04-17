@@ -27,7 +27,6 @@ RUN composer install --no-dev --optimize-autoloader
 
 # Set permissions for storage and cache
 RUN chmod -R 775 storage bootstrap/cache
-RUN chown -R www-data:www-data /var/www/html
 
 # Expose port
 EXPOSE 8000
