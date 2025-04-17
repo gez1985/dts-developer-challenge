@@ -13,11 +13,13 @@ RUN git config --global --add safe.directory /var/www/html
 
 WORKDIR /var/www/html
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-COPY . .
+# Copy only the composer files first, so we can install dependencies
+COPY composer.json composer.lock ./
 
 RUN composer install --no-dev --optimize-autoloader
+
+# Now copy the rest of the application code
+COPY . .
 
 RUN chmod -R 775 storage bootstrap/cache
 
