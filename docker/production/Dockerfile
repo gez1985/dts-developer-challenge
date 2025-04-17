@@ -13,7 +13,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www
 
 # Copy app code
-COPY ./app /var/www
+COPY ../../app /var/www
 
 # Install Composer dependencies
 RUN composer install --no-dev --optimize-autoloader --prefer-dist
