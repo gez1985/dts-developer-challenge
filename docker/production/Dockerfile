@@ -15,6 +15,9 @@ WORKDIR /var/www
 # Copy app code
 COPY ./app /var/www
 
+# Install Composer dependencies
+RUN composer install --no-dev --optimize-autoloader --prefer-dist
+
 # Copy php.ini
 COPY ./docker/production/php.ini /usr/local/etc/php/conf.d/
 
