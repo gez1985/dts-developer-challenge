@@ -12,7 +12,8 @@ This is the API for the DTS Developer Challenge, built using Laravel 12 and Fila
    - Environment Configuration
 2. [Running the Application Locally](#running-the-application-locally)
    - Start the application using docker
-   - Run initialisation commands
+   - Set the correct permissions
+   - Seed the database
 4. [Admin Panel Access](#admin-panel-access)
    - Admin User Roles
    - Admin Panel URL and Login Credentials
@@ -52,7 +53,6 @@ cp .env.example .env
 
 2. Open the .env file and configure the following environment variables according to your preferences:
 
-
 * APP_NAME: Set the application name (e.g., DTS Developer Challenge API).
 * DB_CONNECTION: Configure your database connection (e.g., mysql).
 * DB_PORT: Specify the database port (default: 3306).
@@ -62,21 +62,20 @@ cp .env.example .env
 
 **Note:** Be sure to leave DB_HOST as postgres because the PostgreSQL container will be running in the same Docker network.
 
-
 **Note:** If you leave APP_KEY blank, an app key will be generated for you by the docker entry-point script. In a production environment this should be set manually with php artisan key:generate.
 
 3. PGAdmin Configuration (Optional)
 
 If you are using pgAdmin for managing your PostgreSQL database, make sure to configure the following in your .env file:
 
-PGADMIN_USERNAME: Set the username for pgAdmin access.
-PGADMIN_PASSWORD: Set the password for pgAdmin access.
+* PGADMIN_USERNAME: Set the username for pgAdmin access.
+* PGADMIN_PASSWORD: Set the password for pgAdmin access.
 
 4. **Save the .env file after making the necessary changes.**
 
-### Running the Application Locally
+## Running the Application Locally
 
-1. Start the application using Docker
+### 1. Start the application using Docker
 
 This command will build the Docker containers (if needed) and start them in the background.
 
@@ -84,7 +83,7 @@ This command will build the Docker containers (if needed) and start them in the 
 docker compose up --build -d
 ```
 
-2. Set the correct permissions
+### 2. Set the correct permissions
 
 Once the containers are running, set the appropriate permissions for the storage and bootstrap/cache directories. These are required by Laravel to ensure logs and cached files can be written.
 
@@ -93,7 +92,7 @@ docker exec -it laravel_app chmod -R 775 storage bootstrap/cache
 docker exec -it laravel_app chown -R www-data:www-data storage bootstrap/cache
 ```
 
-3. Seed the database
+### 3. Seed the database
 
 This command will populate the database with initial data, including a default admin user and some dummy records for testing the API.
 
@@ -103,4 +102,4 @@ docker exec -it laravel_app php artisan db:seed
 
 **The application should now be running and accessible at [http://localhost](http://localhost).**
 
-## Loading the Apps Admin Panel
+## Admin Panel Access
