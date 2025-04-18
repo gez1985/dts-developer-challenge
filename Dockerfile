@@ -22,17 +22,11 @@ COPY . .
 # Fix Git safe directory warning
 RUN git config --global --add safe.directory /var/www/html
 
-# Set correct permissions so the following steps can run as www-data
-RUN mkdir -p /var/log/php-fpm && \
-    chown -R www-data:www-data /var/www/html /var/log/php-fpm && \
-    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/log/php-fpm
-
 # Copy the entrypoint script into the container
 COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Switch to www-data user after setting up permissions
-USER www-data
+# Make the entrypoint script executable
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Set the entrypoint
 ENTRYPOINT ["docker-entrypoint.sh"]
@@ -40,5 +34,5 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
 
-# Default command
+# Default command to run PHP-FPM
 CMD ["php-fpm"]
