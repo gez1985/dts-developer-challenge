@@ -25,7 +25,6 @@ This is the API for the DTS Developer Challenge, built using Laravel 12 and Fila
    - Using the token
    - Validating the token
 6. [API Documentation](#api-documentation)
-7. [Running Migrations & Seeding the Database](#running-migrations--seeding-the-database)
 8. [Testing](#testing)
 9. [Deployment](#deployment)
 10. [Troubleshooting & FAQ](#troubleshooting--faq)
@@ -194,6 +193,13 @@ Once the token is included in the request, the application will validate it and 
 ## API Documentation
 You can access the API documentation at the following URL:
 
-localhost/api/documentation
+[localhost/api/documentation] (http://localhost/api/documentation)
+
+This documentation provides an overview of all available endpoints, the required parameters, and the response formats. It will help you to understand how to interact with the API, including details on authentication, data retrieval, and data manipulation.
+
+## API Testing
+You can access the API documentation at the following URL:
+
+[localhost/api/documentation] (http://localhost/api/documentation)
 
 This documentation provides an overview of all available endpoints, the required parameters, and the response formats. It will help you to understand how to interact with the API, including details on authentication, data retrieval, and data manipulation.

@@ -59,6 +59,20 @@ services:
       - postgres
     restart: unless-stopped
 
+  app_test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: test_app
+    environment:
+      DB_CONNECTION: sqlite
+      DB_DATABASE: ":memory:"
+      CACHE_DRIVER: array
+      SESSION_DRIVER: array
+    volumes:
+      - .:/var/www/html
+    command: [ "tail", "-f", "/dev/null" ]
+
 volumes:
   pgdata:
   pgadmin_data:
