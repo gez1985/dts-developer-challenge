@@ -20,7 +20,7 @@ This is the API for the DTS Developer Challenge, built using Laravel 12 and Fila
    - User access restrictions
    - CRUD operations for tasks
    - Creating new users
-5. [API Authentication (Laravel Sanctum)](#api-authentication-laravel-sanctum)
+5. [API Authentication (Tokens)](#api-authentication-tokens)
    - Generate API Token
    - Using Postman for API Requests
 6. [API Documentation](#api-documentation)
@@ -146,3 +146,32 @@ Log in as a super admin user.
 Navigate to the Users section in the admin panel.
 
 Click Create User and fill in the required details.
+
+## API Authentication (Tokens)
+
+To authenticate API requests, the application uses token-based authentication. Below are the steps to obtain an API token and use it in Postman for testing the endpoints.
+
+### 1. Generating an API Token
+
+To generate an API token, you need to log in as a user. You can use any the seeded users including the super admin or admin. Once logged in, you can request an API token.
+
+* Make a post request to the following endpoint to authenticate:
+```bash
+POST /api/login
+```
+
+* Body (JSON)
+```json
+{
+  "email": "super@super.com",
+  "password": "Admin123"
+}
+```
+
+* The response will contain an API token, which will look like this:
+```json
+{
+  "token": "access token here",
+  "user": "{...}"
+}
+```
