@@ -52,14 +52,16 @@ cp .env.example .env
 
 2. Open the .env file and configure the following environment variables according to your preferences:
 
-APP_NAME: Set the application name (e.g., DTS Developer Challenge API).
-DB_CONNECTION: Configure your database connection (e.g., mysql).
-DB_PORT: Specify the database port (default: 3306).
-DB_DATABASE: Set your database name.
-DB_USERNAME: Set your database username.
-DB_PASSWORD: Set your database password.
+
+* APP_NAME: Set the application name (e.g., DTS Developer Challenge API).
+* DB_CONNECTION: Configure your database connection (e.g., mysql).
+* DB_PORT: Specify the database port (default: 3306).
+* DB_DATABASE: Set your database name.
+* DB_USERNAME: Set your database username.
+* DB_PASSWORD: Set your database password.
 
 Note: Be sure to leave DB_HOST as postgres because the PostgreSQL container will be running in the same Docker network.
+
 
 Note: If you leave APP_KEY blank, an app key will be generated for you by the docker entry-point script. In a production environment this should be set manually with php artisan key:generate.
 
@@ -72,6 +74,10 @@ PGADMIN_PASSWORD: Set the password for pgAdmin access.
 
 4. Save the .env file after making the necessary changes.
 
-
-
 ### Running the Application Locally
+
+1. Copy the .env.example file to .env
+
+```bash
+docker compose up --build -d
+```
