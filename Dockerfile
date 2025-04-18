@@ -30,6 +30,17 @@ RUN mkdir -p /var/log/php-fpm && \
 # Install Node.js dependencies and build assets
 RUN npm install && npm run build
 
+# Clean up Node.js dev dependencies and npm cache
+RUN npm prune --production && npm cache clean --force
+
+# Install Composer dependencies with --no-dev
+RUN composer install --no-dev --optimize-autoloader && \
+    composer clear-cache
+
+# Fix permissions again in case pruning/installs modified them
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
 # Copy the entrypoint script into the container
 COPY docker-entrypoint.sh /usr/local/bin/
 
