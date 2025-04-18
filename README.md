@@ -40,3 +40,7 @@ This is the API for the DTS Developer Challenge, built using Laravel 12 and Fila
 ```bash
 git clone https://github.com/your-username/dts-developer-challenge-api.git
 cd dts-developer-challenge-api
+
+### Environment Configuration
+
+### Running the Application Locally
