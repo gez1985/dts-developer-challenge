@@ -19,23 +19,24 @@ services:
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
     restart: unless-stopped
-  app_test:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: test_app
-    ports:
-      - "8001:8000"
-    volumes:
-      - .:/var/www/html
-    environment:
-      DB_CONNECTION: sqlite
-      DB_DATABASE: ":memory:"
-      CACHE_DRIVER: array
-      SESSION_DRIVER: array
-      QUEUE_CONNECTION: sync
-      MAIL_MAILER: array
-    restart: unless-stopped
+
+  # app_test:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: test_app
+  #   ports:
+  #     - "8001:8000"
+  #   volumes:
+  #     - .:/var/www/html
+  #   environment:
+  #     DB_CONNECTION: sqlite
+  #     DB_DATABASE: ":memory:"
+  #     CACHE_DRIVER: array
+  #     SESSION_DRIVER: array
+  #     QUEUE_CONNECTION: sync
+  #     MAIL_MAILER: array
+  #   restart: unless-stopped
 
   postgres:
     image: postgres:16
