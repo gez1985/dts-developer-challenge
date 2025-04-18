@@ -23,11 +23,16 @@ COPY . .
 RUN git config --global --add safe.directory /var/www/html
 
 # Set correct permissions for storage, cache, and log directories
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/log
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/log
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/log && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/log
 
-# Modify PHP-FPM error log configuration to a specific file in /var/log
-RUN echo "error_log = /var/log/php-fpm.log" >> /usr/local/etc/php-fpm.d/www.conf
+# Create php-fpm log file and fix permissions
+RUN touch /var/log/php-fpm.log && \
+    chown www-data:www-data /var/log/php-fpm.log && \
+    chmod 664 /var/log/php-fpm.log
+
+# Modify the PHP-FPM main config to change error_log location
+RUN sed -i 's|^;*error_log = .*|error_log = /var/log/php-fpm.log|' /usr/local/etc/php-fpm.conf
 
 # Install Node.js dependencies
 RUN npm install
