@@ -1,4 +1,4 @@
-# Use official PHP image with FPM
+# Use the official PHP image with FPM
 FROM php:8.3-fpm
 
 # Install system dependencies
@@ -19,13 +19,13 @@ WORKDIR /var/www/html
 # Copy application code
 COPY . .
 
-# Install PHP dependencies
+# Install PHP dependencies (Composer)
 RUN composer install --no-dev --optimize-autoloader
 
 # Install Node.js dependencies
 RUN npm install
 
-# Build assets
+# Build frontend assets (e.g., Vite)
 RUN npm run build
 
 # Set correct permissions
