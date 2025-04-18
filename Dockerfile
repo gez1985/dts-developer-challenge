@@ -22,15 +22,13 @@ COPY . .
 # Fix Git safe directory warning
 RUN git config --global --add safe.directory /var/www/html
 
-# Set correct permissions for Laravel directories
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && \
-    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# Set correct permissions before switching to non-root user
+RUN mkdir -p /var/log/php-fpm && \
+    chown -R www-data:www-data /var/www/html /var/log/php-fpm && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/log/php-fpm
 
-# Install Node.js dependencies
-RUN npm install
-
-# Build frontend assets
-RUN npm run build
+# Install Node.js dependencies and build assets
+RUN npm install && npm run build
 
 # Copy the entrypoint script into the container
 COPY docker-entrypoint.sh /usr/local/bin/
@@ -38,14 +36,14 @@ COPY docker-entrypoint.sh /usr/local/bin/
 # Make the entrypoint script executable
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Set the user to www-data (recommended for Laravel and PHP-FPM)
+# Switch to www-data user
 USER www-data
 
-# Set the entrypoint to the script
+# Set the entrypoint
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
 
-# CMD to start PHP-FPM
+# Default command
 CMD ["php-fpm"]
