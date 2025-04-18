@@ -40,36 +40,3 @@ This is the API for the DTS Developer Challenge, built using Laravel 12 and Fila
 ```bash
 git clone https://github.com/your-username/dts-developer-challenge-api.git
 cd dts-developer-challenge-api
-
-
-### Environment Configuration
-
-1. Copy the `.env.example` file to create your environment file:
-
-    ```bash
-    cp .env.example .env
-    ```
-
-2. Open the `.env` file in your editor and update the following variables:
-
-    ```dotenv
-    DB_DATABASE=your_db_name
-    DB_USERNAME=your_db_username
-    DB_PASSWORD=your_db_password
-
-    PGADMIN_DEFAULT_EMAIL=your_pgadmin_email@example.com
-    PGADMIN_DEFAULT_PASSWORD=your_pgadmin_password
-    ```
-
-3. You can leave `DB_HOST=postgres` as-is if you're using the included Docker setup (it references the name of the Postgres container).
-
-4. After this, you will need to generate the application key. You can do this after starting the containers (see below for Docker setup).
-
----
-
-### Set up the Docker Environment
-
-Once the `.env` file is configured, you can build and run the containers:
-
-```bash
-docker compose up --build -d
