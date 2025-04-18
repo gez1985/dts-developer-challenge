@@ -22,32 +22,16 @@ COPY . .
 # Fix Git safe directory warning
 RUN git config --global --add safe.directory /var/www/html
 
-# Set correct permissions before switching to non-root user
+# Set correct permissions so the following steps can run as www-data
 RUN mkdir -p /var/log/php-fpm && \
     chown -R www-data:www-data /var/www/html /var/log/php-fpm && \
     chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/log/php-fpm
 
-# Install Node.js dependencies and build assets
-RUN npm install && npm run build
-
-# Clean up Node.js dev dependencies and npm cache
-RUN npm prune --production && npm cache clean --force
-
-# Install Composer dependencies with --no-dev
-RUN composer install --no-dev --optimize-autoloader && \
-    composer clear-cache
-
-# Fix permissions again in case pruning/installs modified them
-RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-
 # Copy the entrypoint script into the container
 COPY docker-entrypoint.sh /usr/local/bin/
-
-# Make the entrypoint script executable
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Switch to www-data user
+# Switch to www-data user after setting up permissions
 USER www-data
 
 # Set the entrypoint

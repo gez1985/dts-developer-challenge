@@ -1,11 +1,18 @@
 #!/bin/bash
+# docker-entrypoint.sh
+
+# Exit immediately if any command fails
 set -e
 
-echo "Running Composer install..."
+# Ensure permissions are correct
+chown -R www-data:www-data /var/www/html
+
+# Install Composer dependencies (if not already installed)
 composer install --no-dev --optimize-autoloader
 
-echo "Running Laravel migrations..."
-php artisan migrate --force
+# Install Node.js dependencies and build assets
+npm install
+npm run build
 
-echo "Starting PHP-FPM..."
-exec php-fpm
+# Any other logic you want to run before starting the application
+exec "$@"
