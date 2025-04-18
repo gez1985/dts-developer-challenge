@@ -14,22 +14,19 @@ This is the API for the DTS Developer Challenge, built using Laravel 12 and Fila
    - Start the application using docker
    - Set the correct permissions
    - Seed the database
-4. [Admin Panel Access](#admin-panel-access)
+3. [Admin Panel Access](#admin-panel-access)
    - Super admin access
    - Read only admin access
    - User access restrictions
    - CRUD operations for tasks
    - Creating new users
-5. [API Authentication (Tokens)](#api-authentication-tokens)
+4. [API Authentication (Tokens)](#api-authentication-tokens)
    - Generating an API Token
    - Using the token
    - Validating the token
-6. [API Documentation](#api-documentation)
-8. [Testing](#testing)
-9. [Deployment](#deployment)
-10. [Troubleshooting & FAQ](#troubleshooting--faq)
-11. [Contributing](#contributing)
-12. [License](#license)
+5. [API Documentation](#api-documentation)
+6. [Testing](#testing)
+7. [TroubleShooting](#troubleshooting)
 
 ## Project Setup
 
@@ -99,6 +96,8 @@ This command will populate the database with initial data, including a default a
 ```bash
 docker exec -it laravel_app php artisan db:seed
 ```
+
+**Note** You man need to wait until the entry-point script has completed before seeding the database.  You can check it's progress using **docker logs laravel_app**.
 
 **The application should now be running and accessible at [http://localhost](http://localhost).**
 
@@ -193,13 +192,91 @@ Once the token is included in the request, the application will validate it and 
 ## API Documentation
 You can access the API documentation at the following URL:
 
-[localhost/api/documentation] (http://localhost/api/documentation)
+[localhost/api/documentation](http://localhost/api/documentation)
 
 This documentation provides an overview of all available endpoints, the required parameters, and the response formats. It will help you to understand how to interact with the API, including details on authentication, data retrieval, and data manipulation.
 
 ## API Testing
-You can access the API documentation at the following URL:
+You can run the unit tests but entering the following command:
 
-[localhost/api/documentation] (http://localhost/api/documentation)
+```bash
+docker compose run --rm app_test php artisan test
+```
 
-This documentation provides an overview of all available endpoints, the required parameters, and the response formats. It will help you to understand how to interact with the API, including details on authentication, data retrieval, and data manipulation.
+This command requires some extra composer packages and will install these before completing the unit tests.
+
+## Troubleshooting
+You can run the unit tests but entering the following command:
+
+### 1. Port Conflicts
+
+* If the application or database container tries to use a port that is already in use on the local machine, it could cause a conflict.
+
+Solution:
+
+* Users can either stop the conflicting service or modify the Docker docker-compose.yml file to map the container ports to unused ports on the host machine.
+
+### 2. Docker Not Running
+
+* If Docker isn’t running or the Docker daemon isn’t properly initialized, users will get errors related to container startup or management.
+
+Solution:
+
+* Make sure Docker Desktop (or Docker Engine) is running and accessible.*
+
+### 3. Docker Network Issues
+
+* If containers can't communicate with each other (e.g., the Laravel app cannot reach the PostgreSQL container due to network misconfigurations), the application might fail to start or connect to the database.
+
+Solution:
+
+* Verify that the containers are on the same Docker network. This should happen automatically if you’re using Docker Compose, but it's good to check the network settings.
+
+### 4. File Permission Errors:
+
+* Docker containers sometimes encounter permission issues, especially when trying to write to volumes or certain directories like storage or bootstrap/cache.
+
+Solution:
+
+* Running the correct permission commands (chmod and chown) inside the container as you've done should resolve this issue.
+
+### 5. Missing or Incorrect .env Configuration:
+
+* If users forget to configure certain environment variables, such as database connection details, it can cause errors when the app tries to connect to those services.
+
+Solution:
+
+* Ensure users copy the .env.example file to .env and configure all necessary environment variables.
+
+### 6. PHP or Composer Issues Inside the Container:
+
+* If there are issues with the PHP environment inside the container (e.g., missing PHP extensions, outdated packages), users might encounter errors.
+
+Solution:
+
+* Running docker-compose exec app php artisan --version or composer install from inside the container can help diagnose these issues.
+
+### 7. App Key Generation:
+
+* If the app key is missing or not generated properly, it can lead to errors related to encryption or sessions.
+
+Solution:
+
+* Ensure the app key is generated, either manually with php artisan key:generate or automatically by the container startup script.
+
+### 8. Database Connection Issues:
+
+* If the database container isn’t running or if the database user/password in the .env file is misconfigured, users will encounter database connection errors.
+
+Solution:
+
+* Check the logs with docker logs <container_name> to diagnose any database startup issues, and verify that the database configuration in .env is correct.
+
+### 9. Cache Issues:
+
+* Sometimes Laravel’s cache or configuration files can become stale or corrupted, especially if there have been changes to the environment or configuration files.
+
+Solution:
+
+* Running php artisan config:clear and php artisan cache:clear can help resolve these issues.
+
