@@ -27,3 +27,16 @@ This is the API for the DTS Developer Challenge, built using Laravel 12 and Fila
 10. [Troubleshooting & FAQ](#troubleshooting--faq)
 11. [Contributing](#contributing)
 12. [License](#license)
+
+## Project Setup
+
+### Prerequisites
+
+- Ensure you have **Docker** installed and running on your machine.  
+  You can download and install Docker from [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop).
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/your-username/dts-developer-challenge-api.git
+cd dts-developer-challenge-api
