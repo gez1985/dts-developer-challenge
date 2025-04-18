@@ -76,8 +76,31 @@ PGADMIN_PASSWORD: Set the password for pgAdmin access.
 
 ### Running the Application Locally
 
-1. Copy the .env.example file to .env
+1. Start the application using Docker
+
+This command will build the Docker containers (if needed) and start them in the background.
 
 ```bash
 docker compose up --build -d
 ```
+
+2. Set the correct permissions
+
+Once the containers are running, set the appropriate permissions for the storage and bootstrap/cache directories. These are required by Laravel to ensure logs and cached files can be written.
+
+```bash
+docker exec -it laravel_app chmod -R 775 storage bootstrap/cache
+docker exec -it laravel_app chown -R www-data:www-data storage bootstrap/cache
+```
+
+3. Seed the database
+
+This command will populate the database with initial data, including a default admin user and some dummy records for testing the API.
+
+```bash
+docker exec -it laravel_app php artisan db:seed
+```
+
+**The application should now be running and accessible at [http://localhost](http://localhost).**
+
+## Loading the Apps Admin Panel
