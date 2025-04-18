@@ -60,10 +60,10 @@ cp .env.example .env
 * DB_USERNAME: Set your database username.
 * DB_PASSWORD: Set your database password.
 
-Note: Be sure to leave DB_HOST as postgres because the PostgreSQL container will be running in the same Docker network.
+**Note:** Be sure to leave DB_HOST as postgres because the PostgreSQL container will be running in the same Docker network.
 
 
-Note: If you leave APP_KEY blank, an app key will be generated for you by the docker entry-point script. In a production environment this should be set manually with php artisan key:generate.
+**Note:** If you leave APP_KEY blank, an app key will be generated for you by the docker entry-point script. In a production environment this should be set manually with php artisan key:generate.
 
 3. PGAdmin Configuration (Optional)
 
@@ -72,7 +72,7 @@ If you are using pgAdmin for managing your PostgreSQL database, make sure to con
 PGADMIN_USERNAME: Set the username for pgAdmin access.
 PGADMIN_PASSWORD: Set the password for pgAdmin access.
 
-4. Save the .env file after making the necessary changes.
+4. **Save the .env file after making the necessary changes.**
 
 ### Running the Application Locally
 
