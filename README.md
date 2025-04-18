@@ -16,13 +16,14 @@ This is the API for the DTS Developer Challenge, built using Laravel 12 and Fila
    - Seed the database
 4. [Admin Panel Access](#admin-panel-access)
    - Super admin access
-   - Read Only Admin Access
+   - Read only admin access
    - User access restrictions
    - CRUD operations for tasks
    - Creating new users
 5. [API Authentication (Tokens)](#api-authentication-tokens)
-   - Generate API Token
-   - Using Postman for API Requests
+   - Generating an API Token
+   - Using the token
+   - Validating the token
 6. [API Documentation](#api-documentation)
 7. [Running Migrations & Seeding the Database](#running-migrations--seeding-the-database)
 8. [Testing](#testing)
@@ -175,3 +176,24 @@ POST /api/login
   "user": "{...}"
 }
 ```
+
+### Using the token
+
+To use the token in Postman (or similar) to authenticate requests:
+
+1. Open Postman.
+2. Go to the Authorization tab for the request you want to make.
+3. Select Bearer Token from the dropdown.
+4. Paste the API token you generated into the Token field.
+5. Send the request, and the API will authenticate using the provided token.
+
+### Validating the token
+
+Once the token is included in the request, the application will validate it and process the request. If the token is invalid or expired, you will receive an authentication error.
+
+## API Documentation
+You can access the API documentation at the following URL:
+
+localhost/api/documentation
+
+This documentation provides an overview of all available endpoints, the required parameters, and the response formats. It will help you to understand how to interact with the API, including details on authentication, data retrieval, and data manipulation.
