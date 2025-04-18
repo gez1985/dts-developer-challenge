@@ -27,7 +27,7 @@ npm install
 npm run build
 
 # Run migrations
-php artisan migrate
+php artisan migrate --force
 
 # Start PHP-FPM
 exec php-fpm
