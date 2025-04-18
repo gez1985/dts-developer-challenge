@@ -6,6 +6,8 @@ set -e
 
 # Check if APP_ENV is set to 'testing'
 if [ "$APP_ENV" == "testing" ]; then
+    echo "Testing mode: wiping vendor/ and composer.lock..."
+    rm -rf vendor composer.lock
     echo "Running in testing environment. Installing development dependencies..."
     composer install --dev --optimize-autoloader
     composer dump-autoload --dev  # Ensure autoload for testing is included
