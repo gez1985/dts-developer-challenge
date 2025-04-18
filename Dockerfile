@@ -1,4 +1,4 @@
-# Use the official PHP image with FPM
+# Use official PHP image with FPM
 FROM php:8.3-fpm
 
 # Install system dependencies
@@ -23,20 +23,27 @@ COPY . .
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Install PHP dependencies (Composer)
-RUN composer install --no-dev --optimize-autoloader
-
 # Install Node.js dependencies
 RUN npm install
 
-# Build frontend assets (e.g., Vite)
+# Build frontend assets
 RUN npm run build
 
 # Set correct permissions
 RUN chmod -R 775 storage bootstrap/cache
 
+# Copy the entrypoint script into the container
+COPY docker-entrypoint.sh /usr/local/bin/
+
+# Make the entrypoint script executable
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Set the entrypoint to the script
+ENTRYPOINT ["docker-entrypoint.sh"]
+
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
 
-# Start PHP-FPM
+# CMD to start PHP-FPM (this will be the last command executed by the entrypoint)
 CMD ["php-fpm"]
+
