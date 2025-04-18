@@ -19,6 +19,9 @@ WORKDIR /var/www/html
 # Copy application code
 COPY . .
 
+# Fix Git safe directory warning
+RUN git config --global --add safe.directory /var/www/html
+
 # Set correct permissions for storage and cache directories
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
@@ -28,9 +31,6 @@ RUN npm install
 
 # Build frontend assets
 RUN npm run build
-
-# Set correct permissions
-RUN chmod -R 775 storage bootstrap/cache
 
 # Copy the entrypoint script into the container
 COPY docker-entrypoint.sh /usr/local/bin/
