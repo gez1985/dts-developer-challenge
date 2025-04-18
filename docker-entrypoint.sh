@@ -11,5 +11,11 @@ composer install --no-dev --optimize-autoloader
 npm install
 npm run build
 
+# Run migrations
+php artisan migrate
+
+# Seed the database
+php artisan db:seed
+
 # Start PHP-FPM
 exec php-fpm
