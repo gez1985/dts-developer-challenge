@@ -70,9 +70,6 @@ services:
       DB_DATABASE: ":memory:"
       CACHE_DRIVER: array
       SESSION_DRIVER: array
-    volumes:
-      - .:/var/www/html
-    command: [ "tail", "-f", "/dev/null" ]
 
 volumes:
   pgdata:
