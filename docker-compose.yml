@@ -6,6 +6,7 @@ services:
     container_name: laravel_app
     volumes:
       - .:/var/www/html
+      - vendor:/var/www/html/vendor
     environment:
       DB_CONNECTION: ${DB_CONNECTION}
       DB_HOST: ${DB_HOST}
@@ -64,6 +65,9 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: test_app
+    volumes:
+      - .:/var/www/html
+      - test_vendor:/var/www/html/vendor # This isolates vendor for test_app
     environment:
       APP_ENV: testing
       DB_CONNECTION: sqlite
@@ -76,5 +80,7 @@ volumes:
   pgadmin_data:
   caddy_data:
   caddy_config:
+  vendor:
+  test_vendor:
 
 
