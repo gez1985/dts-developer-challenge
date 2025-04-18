@@ -1,16 +1,13 @@
+version: '3.8'
+
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: laravel_app
-    ports:
-      - "8000:8000"
     volumes:
       - .:/var/www/html
-      - /var/www/html/vendor
-    depends_on:
-      - postgres
     environment:
       DB_CONNECTION: ${DB_CONNECTION}
       DB_HOST: ${DB_HOST}
@@ -19,24 +16,23 @@ services:
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
     restart: unless-stopped
+    depends_on:
+      - postgres
 
-  # app_test:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   container_name: test_app
-  #   ports:
-  #     - "8001:8000"
-  #   volumes:
-  #     - .:/var/www/html
-  #   environment:
-  #     DB_CONNECTION: sqlite
-  #     DB_DATABASE: ":memory:"
-  #     CACHE_DRIVER: array
-  #     SESSION_DRIVER: array
-  #     QUEUE_CONNECTION: sync
-  #     MAIL_MAILER: array
-  #   restart: unless-stopped
+  caddy:
+    image: caddy:alpine
+    container_name: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - .:/var/www/html
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+    restart: unless-stopped
 
   postgres:
     image: postgres:16
@@ -59,12 +55,16 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-    depends_on:
-      - postgres
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
     restart: unless-stopped
 
 volumes:
   pgdata:
   pgadmin_data:
+  caddy_data:
+  caddy_config:
+
+

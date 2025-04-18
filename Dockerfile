@@ -1,13 +1,9 @@
+# Use the official PHP image with FPM
 FROM php:8.3-fpm
 
-# Install dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    libzip-dev \
-    libicu-dev \
-    libpq-dev \
-    zip \
+    git unzip libzip-dev libicu-dev libpq-dev zip curl gnupg \
     && docker-php-ext-install pdo pdo_pgsql intl zip
 
 # Install Composer
@@ -16,20 +12,17 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy application code
+# Copy app code
 COPY . .
 
-# Fix Git safe directory warning
-RUN git config --global --add safe.directory /var/www/html
-
-# Install Composer dependencies
+# Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Set permissions for storage and cache
+# Set correct permissions
 RUN chmod -R 775 storage bootstrap/cache
 
-# Expose port
-EXPOSE 8000
+# Expose port 9000 for PHP-FPM
+EXPOSE 9000
 
-# Start the Laravel app
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Start PHP-FPM
+CMD ["php-fpm"]
