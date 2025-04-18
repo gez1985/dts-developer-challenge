@@ -9,10 +9,10 @@ This is the API for the DTS Developer Challenge, built using Laravel 12 and Fila
 1. [Project Setup](#project-setup)
    - Prerequisites
    - Clone the Repository
-   - Install Dependencies
-   - Set up the Docker Environment
-2. [Environment Configuration](#environment-configuration)
-3. [Running the Application Locally](#running-the-application-locally)
+   - Environment Configuration
+2. [Running the Application Locally](#running-the-application-locally)
+   - Start the application using docker
+   - Run initialisation commands
 4. [Admin Panel Access](#admin-panel-access)
    - Admin User Roles
    - Admin Panel URL and Login Credentials
@@ -39,8 +39,39 @@ This is the API for the DTS Developer Challenge, built using Laravel 12 and Fila
 
 ```bash
 git clone https://github.com/your-username/dts-developer-challenge-api.git
-cd dts-developer-challenge-api
+cd dts-developer-challenge-api 
+```
 
 ### Environment Configuration
+
+1. Copy the .env.example file to .env
+
+```bash
+cp .env.example .env
+```
+
+2. Open the .env file and configure the following environment variables according to your preferences:
+
+APP_NAME: Set the application name (e.g., DTS Developer Challenge API).
+DB_CONNECTION: Configure your database connection (e.g., mysql).
+DB_PORT: Specify the database port (default: 3306).
+DB_DATABASE: Set your database name.
+DB_USERNAME: Set your database username.
+DB_PASSWORD: Set your database password.
+
+Note: Be sure to leave DB_HOST as postgres because the PostgreSQL container will be running in the same Docker network.
+
+Note: If you leave APP_KEY blank, an app key will be generated for you by the docker entry-point script. In a production environment this should be set manually with php artisan key:generate.
+
+3. PGAdmin Configuration (Optional)
+
+If you are using pgAdmin for managing your PostgreSQL database, make sure to configure the following in your .env file:
+
+PGADMIN_USERNAME: Set the username for pgAdmin access.
+PGADMIN_PASSWORD: Set the password for pgAdmin access.
+
+4. Save the .env file after making the necessary changes.
+
+
 
 ### Running the Application Locally
