@@ -65,6 +65,7 @@ services:
       dockerfile: Dockerfile
     container_name: test_app
     environment:
+      APP_ENV: testing
       DB_CONNECTION: sqlite
       DB_DATABASE: ":memory:"
       CACHE_DRIVER: array

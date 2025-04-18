@@ -4,8 +4,15 @@
 # Exit immediately if any command fails
 set -e
 
-# Install Composer dependencies if not already installed
-composer install --no-dev --optimize-autoloader
+# Check if APP_ENV is set to 'testing'
+if [ "$APP_ENV" == "testing" ]; then
+    echo "Running in testing environment. Installing development dependencies..."
+    composer install --dev --optimize-autoloader
+    composer dump-autoload --dev  # Ensure autoload for testing is included
+else
+    # Install Composer dependencies (without dev dependencies)
+    composer install --no-dev --optimize-autoloader
+fi
 
 # Only generate APP_KEY if it's not already set
 if [ -z "$APP_KEY" ]; then
