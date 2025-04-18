@@ -3,7 +3,7 @@ FROM php:8.3-fpm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git unzip libzip-dev libicu-dev libpq-dev zip curl gnupg gosu\
+    git unzip libzip-dev libicu-dev libpq-dev zip curl gnupg gosu \
     && docker-php-ext-install pdo pdo_pgsql intl zip
 
 # Install Node.js (version 22.14) and npm
@@ -22,9 +22,12 @@ COPY . .
 # Fix Git safe directory warning
 RUN git config --global --add safe.directory /var/www/html
 
-# Set correct permissions for storage and cache directories
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# Set correct permissions for storage, cache, and log directories
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/log
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/log
+
+# Modify PHP-FPM error log configuration to a specific file in /var/log
+RUN echo "error_log = /var/log/php-fpm.log" >> /usr/local/etc/php-fpm.d/www.conf
 
 # Install Node.js dependencies
 RUN npm install
@@ -46,4 +49,3 @@ EXPOSE 9000
 
 # CMD to start PHP-FPM (this will be the last command executed by the entrypoint)
 CMD ["php-fpm"]
-
