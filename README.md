@@ -15,9 +15,11 @@ This is the API for the DTS Developer Challenge, built using Laravel 12 and Fila
    - Set the correct permissions
    - Seed the database
 4. [Admin Panel Access](#admin-panel-access)
-   - Admin User Roles
-   - Admin Panel URL and Login Credentials
-   - Changing Admin Credentials
+   - Super admin access
+   - Read Only Admin Access
+   - User access restrictions
+   - CRUD operations for tasks
+   - Creating new users
 5. [API Authentication (Laravel Sanctum)](#api-authentication-laravel-sanctum)
    - Generate API Token
    - Using Postman for API Requests
@@ -54,8 +56,6 @@ cp .env.example .env
 2. Open the .env file and configure the following environment variables according to your preferences:
 
 * APP_NAME: Set the application name (e.g., DTS Developer Challenge API).
-* DB_CONNECTION: Configure your database connection (e.g., mysql).
-* DB_PORT: Specify the database port (default: 3306).
 * DB_DATABASE: Set your database name.
 * DB_USERNAME: Set your database username.
 * DB_PASSWORD: Set your database password.
@@ -103,3 +103,46 @@ docker exec -it laravel_app php artisan db:seed
 **The application should now be running and accessible at [http://localhost](http://localhost).**
 
 ## Admin Panel Access
+
+The admin panel allows super admin users to manage application data, users, and roles. Only users with the correct credentials will be able to access the admin panel.
+
+### 1. Super Admin Access
+A seeded super admin user is provided with the following credentials to access the admin panel:
+
+```bash
+Email: super@super.com
+Password: Admin123
+```
+
+Super admin users have full access to the application, including the ability to create, update, and delete users and roles, as well as modify application settings and data.
+
+### 2. Read-Only Admin Access
+A read-only admin user is provided with the following credentials to access the admin panel:
+
+```bash
+Email: admin@admin.com
+Password: Admin123
+```
+
+Read-only admin users have limited access and can view data but cannot make changes. They do not have permission to create or modify users, roles or tasks.
+
+### 3. User Access Restrictions
+Only super admin and admin users can log in to the admin panel. Other users of the application will not have access to this feature.
+
+Be cautious when deleting super admin users. Ensure that there is at least one super admin user in the system to maintain access to the admin panel.
+
+Super admin users can change the details of any users and their passwords, including the seeded users (super@super.com, admin@admin.com), or create new super admin users before deleting the seeded ones. This ensures that the admin panel remains accessible after making changes.
+
+### 4. CRUD Operations for Tasks
+In the admin panel, super admin users will have the ability to perform CRUD (Create, Read, Update, Delete) operations on seeded "task" data.
+
+This allows super admin users to manage the task data easily, adding, editing, or removing tasks as needed.
+
+### 5. Creating New Users
+Super admin users can create new users directly from the admin panel. To create a new user:
+
+Log in as a super admin user.
+
+Navigate to the Users section in the admin panel.
+
+Click Create User and fill in the required details.
