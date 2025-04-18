@@ -19,6 +19,10 @@ WORKDIR /var/www/html
 # Copy application code
 COPY . .
 
+# Set correct permissions for storage and cache directories
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
 # Install PHP dependencies (Composer)
 RUN composer install --no-dev --optimize-autoloader
 
