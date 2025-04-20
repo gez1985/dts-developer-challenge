@@ -74,4 +74,35 @@ class AuthController extends Controller
         $request->user()->tokens()->delete();
         return response()->json(['message' => 'Logged out']);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/me",
+     *     summary="Get the authenticated user",
+     *     tags={"Authentication"},
+     *     security={{"sanctum":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Returns the authenticated user details",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="user", type="object", ref="#/components/schemas/User")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found"
+     *     )
+     * )
+     */
+    public function getUser(Request $request)
+    {
+        $user = $request->user();
+
+        // Check if the user exists
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        return response()->json(['user' => $user]);
+    }
 }
