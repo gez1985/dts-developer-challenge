@@ -85,7 +85,14 @@ class AuthController extends Controller
      *         response=200,
      *         description="Returns the authenticated user details",
      *         @OA\JsonContent(
-     *             @OA\Property(property="user", type="object", ref="#/components/schemas/User")
+     *             @OA\Property(property="user", type="object", 
+     *                 @OA\Property(property="id", type="integer", example=2),
+     *                 @OA\Property(property="name", type="string", example="Admin"),
+     *                 @OA\Property(property="email", type="string", format="email", example="admin@admin.com"),
+     *                 @OA\Property(property="email_verified_at", type="string", format="date-time", example="2025-04-18T17:04:59.000000Z"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2025-04-18T17:04:59.000000Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2025-04-18T17:04:59.000000Z")
+     *             )
      *         )
      *     ),
      *     @OA\Response(
