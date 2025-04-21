@@ -77,7 +77,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/verify-user",
+     *     path="/api/user",
      *     summary="Get the authenticated user by token",
      *     tags={"Authentication"},
      *     security={{"sanctum":{}}},
@@ -101,7 +101,7 @@ class AuthController extends Controller
      *     )
      * )
      */
-    public function verifyUser(Request $request)
+    public function getUser(Request $request)
     {
         $user = $request->user();
 
