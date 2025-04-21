@@ -11,7 +11,7 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
-    Route::get('/user', [AuthController::class, 'getUser']);
+    Route::post('/verify-user', [AuthController::class, 'verifyUser']);
 
     // Task Routes
     Route::get('/tasks', [TaskController::class, 'index']);             // Get all tasks for user
