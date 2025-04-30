@@ -27,6 +27,7 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - .:/var/www/html
+      - /home/gerard/projects/dts-developer-challenge-app/out:/srv/mytasks
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
