@@ -26,9 +26,11 @@ services:
       - "443:443"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
-      - /home/gerard/projects/dts-developer-challenge-app/out:/usr/share/caddy
+      - .:/var/www/html
       - caddy_data:/data
       - caddy_config:/config
+    depends_on:
+      - app
     restart: unless-stopped
 
   postgres:
@@ -65,7 +67,7 @@ services:
     container_name: test_app
     volumes:
       - .:/var/www/html
-      - test_vendor:/var/www/html/vendor
+      - test_vendor:/var/www/html/vendor # This isolates vendor for test_app
     environment:
       APP_ENV: testing
       DB_CONNECTION: sqlite
@@ -80,3 +82,5 @@ volumes:
   caddy_config:
   vendor:
   test_vendor:
+
+

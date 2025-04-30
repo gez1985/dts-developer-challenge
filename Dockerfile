@@ -1,8 +1,6 @@
 # Use official PHP image with FPM
 FROM php:8.3-fpm
 
-RUN sed -i 's|^listen =.*|listen = 0.0.0.0:9000|' /usr/local/etc/php-fpm.d/www.conf
-
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git unzip libzip-dev libicu-dev libpq-dev zip curl gnupg \
