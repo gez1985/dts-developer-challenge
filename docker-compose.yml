@@ -26,7 +26,7 @@ caddy:
     - "443:443"
   volumes:
     - ./Caddyfile:/etc/caddy/Caddyfile
-    - /home/gerard/projects/dts-developer-challenge-app/out:/srv
+    - /home/gerard/projects/dts-developer-challenge-app/out:/usr/share/caddy
     - caddy_data:/data
     - caddy_config:/config
   restart: unless-stopped
