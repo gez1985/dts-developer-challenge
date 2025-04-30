@@ -3,3 +3,8 @@ http://localhost {  # change to domain for deployment
     php_fastcgi app:9000
     file_server
 }
+
+# For the Next.js App
+https://mytasks.gerardegan.com {
+    reverse_proxy nextjs_app:3000
+}

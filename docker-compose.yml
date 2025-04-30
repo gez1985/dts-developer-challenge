@@ -75,6 +75,17 @@ services:
       CACHE_DRIVER: array
       SESSION_DRIVER: array
 
+  my_tasks_app:
+    build:
+      context: ../dts-developer-challenge-app
+      dockerfile: Dockerfile
+    container_name: nextjs_mytasks_app
+    restart: unless-stopped
+    expose:
+      - "3000"
+    networks:
+      - default
+
 volumes:
   pgdata:
   pgadmin_data:
