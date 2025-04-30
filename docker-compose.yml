@@ -18,18 +18,18 @@ services:
     depends_on:
       - postgres
 
-caddy:
-  image: caddy:alpine
-  container_name: caddy
-  ports:
-    - "80:80"
-    - "443:443"
-  volumes:
-    - ./Caddyfile:/etc/caddy/Caddyfile
-    - /home/gerard/projects/dts-developer-challenge-app/out:/usr/share/caddy
-    - caddy_data:/data
-    - caddy_config:/config
-  restart: unless-stopped
+  caddy:
+    image: caddy:alpine
+    container_name: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - /home/gerard/projects/dts-developer-challenge-app/out:/usr/share/caddy
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
 
   postgres:
     image: postgres:16
@@ -65,7 +65,7 @@ caddy:
     container_name: test_app
     volumes:
       - .:/var/www/html
-      - test_vendor:/var/www/html/vendor # This isolates vendor for test_app
+      - test_vendor:/var/www/html/vendor
     environment:
       APP_ENV: testing
       DB_CONNECTION: sqlite
@@ -80,5 +80,3 @@ volumes:
   caddy_config:
   vendor:
   test_vendor:
-
-
